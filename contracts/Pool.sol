@@ -103,10 +103,10 @@ contract Pool is MintableToken, BurnableToken
     delete(assets[last]);
     assets.length = last;
     assetNumbers[_star] = 0;
-    // attempt to transfer the sender their star.
-    Constitution(ships.owner()).transferShip(_star, msg.sender, true);
     // we own one less star, so burn one token.
     burn(oneStar);
+    // attempt to transfer the sender their star.
+    Constitution(ships.owner()).transferShip(_star, msg.sender, true);
   }
 
   // test if the ship is, in fact, a star.
