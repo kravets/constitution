@@ -3,8 +3,8 @@
 
 pragma solidity 0.4.18;
 
-import 'zeppelin-solidity/contracts/token/MintableToken.sol';
-import 'zeppelin-solidity/contracts/token/BurnableToken.sol';
+import 'zeppelin-solidity/contracts/token/ERC20/MintableToken.sol';
+import 'zeppelin-solidity/contracts/token/ERC20/BurnableToken.sol';
 
 import './Constitution.sol';
 
