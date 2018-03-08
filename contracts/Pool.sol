@@ -37,7 +37,7 @@ contract Pool is MintableToken, BurnableToken
   }
 
   function getAllAssets()
-    constant
+    view
     external
     returns (uint16[] allAssets)
   {
