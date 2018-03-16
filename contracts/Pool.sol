@@ -84,7 +84,8 @@ contract Pool is MintableToken, BurnableToken
     // we succeeded, so grant the sender their token.
     // we use this.call here so that msg.sender gets set to us.
     // the operations won't run correctly otherwise.
-    this.call.gas(50000)(bytes4(sha3("mint(address,uint256)")), msg.sender, oneStar);
+    this.call.gas(50000)(bytes4(keccak256("mint(address,uint256)")),
+                         msg.sender, oneStar);
   }
 
   // take one star from the pool.
