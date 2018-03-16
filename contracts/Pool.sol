@@ -28,6 +28,7 @@ contract Pool is MintableToken, BurnableToken
   mapping(uint16 => uint256) public assetNumbers;
 
   function Pool(Ships _ships)
+    public
   {
     ships = _ships;
     // needs to be its own owner so that it can mint.
