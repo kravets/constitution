@@ -14,7 +14,7 @@ contract Pool is MintableToken, BurnableToken
   //
   string constant public name = "StarToken";
   string constant public symbol = "TAR";
-  uint constant public decimals = 18;
+  uint256 constant public decimals = 18;
   uint256 constant public oneStar = 1e18;
 
   //  ships: ships state data store

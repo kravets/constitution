@@ -5,9 +5,6 @@ const Pool = artifacts.require('../contracts/Pool.sol');
 
 contract('Pool', function([owner, user1, user2]) {
   let ships, polls, constit, pool;
-  const LATENT = 0;
-  const LOCKED = 1;
-  const LIVING = 2;
 
   function assertJump(error) {
     assert.isAbove(error.message.search('revert'), -1, 'Revert must be returned, but got ' + error);
@@ -33,7 +30,7 @@ contract('Pool', function([owner, user1, user2]) {
     } catch(err) {
       assertJump(err);
     }
-    // must fail if no launch rights.
+    // must fail if no spawn rights.
     try {
       await pool.deposit(256, {from:user1});
       assert.fail('should have thrown before');
