@@ -1,4 +1,4 @@
-// an example urbit star pool
+//  an example urbit star pool
 
 pragma solidity 0.4.18;
 
