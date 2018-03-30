@@ -94,7 +94,7 @@ contract Pool is MintableToken, BurnableToken
          //
          //  the _star may not have been used yet
          //
-         ( 0 == ships.getKeyRevisionNumber(_star) ) &&
+         !ships.hasBeenBooted(_star) &&
          //
          //  :this contract must be allowed to transfer the _star
          //
