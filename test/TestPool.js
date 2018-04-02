@@ -81,23 +81,16 @@ contract('Pool', function([owner, user1, user2]) {
   });
 
   it('withdraw a star', async function() {
-    // can't withdraw a non-pooled star.
-    try {
-      await pool.withdraw(257, {from:user1});
-      assert.fail('should have thrown before');
-    } catch(err) {
-      assertJump(err);
-    }
     // withdraw a star
-    await pool.withdraw(256, {from:user1});
-    assert.isTrue(await ships.isOwner(256, user1));
+    await pool.withdraw({from:user1});
+    assert.isTrue(await ships.isOwner(512, user1));
     assert.equal((await pool.balanceOf(user1)), 0);
     let res = await pool.getAllAssets();
     assert.equal(res.length, 1);
-    assert.equal(res[0].toNumber(), 512);
+    assert.equal(res[0].toNumber(), 256);
     // can't withdraw without balance.
     try {
-      await pool.withdraw(512, {from:user1});
+      await pool.withdraw({from:user1});
       assert.fail('should have thrown before');
     } catch(err) {
       assertJump(err);

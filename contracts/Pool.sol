@@ -159,12 +159,11 @@ contract Pool is MintableToken, BurnableToken
 
   //  withdraw(): pay a token, receive the most recently deposited star
   //
-  //TODO  overloading seems bugged for functions without arguments.
-  /* function withdraw()
+  function withdraw()
     public
   {
     withdraw(assets[assets.length-1]);
-  } */
+  }
 
   //  withdraw(): pay a token, receive the star _star in return
   //
