@@ -7,7 +7,18 @@ import 'zeppelin-solidity/contracts/token/ERC20/BurnableToken.sol';
 
 import './Constitution.sol';
 
-
+//  Pool: simple ships-as-tokens contract
+//
+//    This contract displays a way to turn ships into tokens and vice versa.
+//    It implements all functionality of an ERC20 token, and adds a few
+//    additional functions to allow tokens to be obtained.
+//
+//    Using deposit(), an unbooted star can be transferred to this contract.
+//    Upon receiving the star, this contract grants one star token to the
+//    sender. This token can be used like every other ERC20 token.
+//    Using withdraw(), a token can be traded in to receive ownership
+//    of one of the stars deposited into this contract.
+//
 contract Pool is MintableToken, BurnableToken
 {
   //  ERC20 token metadata
