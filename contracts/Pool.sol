@@ -1,6 +1,6 @@
 //  an example urbit star pool
 
-pragma solidity 0.4.18;
+pragma solidity 0.4.21;
 
 import 'zeppelin-solidity/contracts/token/ERC20/MintableToken.sol';
 import 'zeppelin-solidity/contracts/token/ERC20/BurnableToken.sol';
@@ -153,13 +153,13 @@ contract Pool is MintableToken, BurnableToken
     //    gets set to this contract's address. this is necessary to
     //    satisfy the permission check in the mint function.
     //
-    this.call.gas(50000)(bytes4(keccak256("mint(address,uint256)")),
-                         msg.sender, oneStar);
+    address(this).call.gas(50000)(bytes4(keccak256("mint(address,uint256)")),
+                                  msg.sender, oneStar);
   }
 
   //  withdraw(): pay a token, receive the most recently deposited star
   //
-  //TODO  why does this overshadow withdraw(uint16)?
+  //TODO  overloading seems bugged for functions without arguments.
   /* function withdraw()
     public
   {
