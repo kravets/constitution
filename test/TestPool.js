@@ -1,5 +1,6 @@
 const Ships = artifacts.require('../contracts/Ships.sol');
 const Polls = artifacts.require('../contracts/Polls.sol');
+const Claims = artifacts.require('../contracts/Claims.sol');
 const Constitution = artifacts.require('../contracts/Constitution.sol');
 const Pool = artifacts.require('../contracts/Pool.sol');
 
@@ -13,7 +14,9 @@ contract('Pool', function([owner, user1, user2]) {
   before('setting up for tests', async function() {
     ships = await Ships.new();
     polls = await Polls.new(0, 0);
-    constit = await Constitution.new(0, ships.address, polls.address);
+    claims = await Claims.new(ships.address);
+    constit = await Constitution.new(0, ships.address, polls.address,
+                                     claims.address);
     await ships.transferOwnership(constit.address);
     await polls.transferOwnership(constit.address);
     await constit.createGalaxy(0, user1);
