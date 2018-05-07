@@ -20,7 +20,7 @@ contract('Pool', function([owner, user1, user2]) {
     await ships.transferOwnership(constit.address);
     await polls.transferOwnership(constit.address);
     await constit.createGalaxy(0, user1);
-    await constit.configureKeys(0, 10, 11, {from:user1});
+    await constit.configureKeys(0, 10, 11, false, {from:user1});
     await constit.spawn(512, user2, {from:user1});
     pool = await Pool.new(ships.address);
   });
