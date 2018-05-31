@@ -4,12 +4,10 @@ const Claims = artifacts.require('../contracts/Claims.sol');
 const Constitution = artifacts.require('../contracts/Constitution.sol');
 const Pool = artifacts.require('../contracts/Pool.sol');
 
+const assertRevert = require('./helpers/assertRevert');
+
 contract('Pool', function([owner, user1, user2]) {
   let ships, polls, constit, pool;
-
-  function assertJump(error) {
-    assert.isAbove(error.message.search('revert'), -1, 'Revert must be returned, but got ' + error);
-  }
 
   before('setting up for tests', async function() {
     ships = await Ships.new();
@@ -27,27 +25,12 @@ contract('Pool', function([owner, user1, user2]) {
 
   it('deposit star as galaxy owner', async function() {
     // must only accept stars.
-    try {
-      await pool.deposit(0, {from:user1});
-      assert.fail('should have thrown before');
-    } catch(err) {
-      assertJump(err);
-    }
+    await assertRevert(pool.deposit(0, {from:user1}));
     // must fail if no spawn rights.
-    try {
-      await pool.deposit(256, {from:user1});
-      assert.fail('should have thrown before');
-    } catch(err) {
-      assertJump(err);
-    }
+    await assertRevert(pool.deposit(256, {from:user1}));
     await constit.setSpawnProxy(0, pool.address, {from:user1});
     // must fail if caller is not galaxy owner.
-    try {
-      await pool.deposit(256);
-      assert.fail('should have thrown before');
-    } catch(err) {
-      assertJump(err);
-    }
+    await assertRevert(pool.deposit(256));
     // deposit as galaxy owner.
     await pool.deposit(256, {from:user1});
     assert.isTrue(await ships.isOwner(256, pool.address));
@@ -59,20 +42,10 @@ contract('Pool', function([owner, user1, user2]) {
 
   it('deposit star as star owner', async function() {
     // can't deposit if not transferrer.
-    try {
-      await pool.deposit(512, {from:user2});
-      assert.fail('should have thrown before');
-    } catch(err) {
-      assertJump(err);
-    }
+    await assertRevert(pool.deposit(512, {from:user2}));
     await constit.setTransferProxy(512, pool.address, {from:user2});
     // can't deposit if not owner.
-    try {
-      await pool.deposit(512, {from:user1});
-      assert.fail('should have thrown before');
-    } catch(err) {
-      assertJump(err);
-    }
+    await assertRevert(pool.deposit(512, {from:user1}));
     // deposit as star owner.
     await pool.deposit(512, {from:user2});
     assert.isTrue(await ships.isOwner(512, pool.address));
@@ -92,11 +65,6 @@ contract('Pool', function([owner, user1, user2]) {
     assert.equal(res.length, 1);
     assert.equal(res[0].toNumber(), 256);
     // can't withdraw without balance.
-    try {
-      await pool.withdraw({from:user1});
-      assert.fail('should have thrown before');
-    } catch(err) {
-      assertJump(err);
-    }
+    await assertRevert(pool.withdraw({from:user1}));
   });
 });
