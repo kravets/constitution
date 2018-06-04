@@ -1,6 +1,6 @@
 //  an example urbit star pool
 
-pragma solidity 0.4.21;
+pragma solidity 0.4.24;
 
 import 'zeppelin-solidity/contracts/token/ERC20/MintableToken.sol';
 import 'zeppelin-solidity/contracts/token/ERC20/BurnableToken.sol';
@@ -44,9 +44,9 @@ contract Pool is MintableToken, BurnableToken
   //
   mapping(uint16 => uint256) public assetIndexes;
 
-  //  Pool(): register ships state data store
+  //  constructor(): register ships state data store
   //
-  function Pool(Ships _ships)
+  constructor(Ships _ships)
     public
   {
     ships = _ships;
