@@ -2,8 +2,7 @@
 
 pragma solidity 0.4.24;
 
-import 'zeppelin-solidity/contracts/token/ERC20/MintableToken.sol';
-import 'zeppelin-solidity/contracts/token/ERC20/BurnableToken.sol';
+import 'zeppelin-solidity/contracts/token/ERC20/StandardToken.sol';
 
 import './Constitution.sol';
 
@@ -19,7 +18,7 @@ import './Constitution.sol';
 //    Using withdraw(), a token can be traded in to receive ownership
 //    of one of the stars deposited into this contract.
 //
-contract Pool is MintableToken, BurnableToken
+contract Pool is StandardToken
 {
   //  ERC20 token metadata
   //
@@ -50,11 +49,6 @@ contract Pool is MintableToken, BurnableToken
     public
   {
     ships = _ships;
-
-    //  make this contract its own owner, to allow it to mint and burn tokens,
-    //  and prevent the original creator from doing so themselves
-    //
-    owner = this;
   }
 
   //  getAllAssets(): return array of assets held by this contract
@@ -69,13 +63,6 @@ contract Pool is MintableToken, BurnableToken
   {
     return assets;
   }
-
-  // give one star to the pool.
-  // either of the following requirements must be fulfilled:
-  // 1. the star must be unlocked, the sender the owner of the star, and this
-  //    pool configured as the transferrer for that star.
-  // 2. the star must be latent, the sender the owner of its parent galaxy, and
-  //    this pool configured as a launcher for that galaxy.
 
   //  deposit(): add a star _star to the pool, receive a token in return
   //
@@ -149,12 +136,9 @@ contract Pool is MintableToken, BurnableToken
 
     //  mint a star token and grant it to the :msg.sender
     //
-    //    Note: this.call is used so that the :msg.sender in its context
-    //    gets set to this contract's address. this is necessary to
-    //    satisfy the permission check in the mint function.
-    //
-    address(this).call.gas(50000)(bytes4(keccak256("mint(address,uint256)")),
-                                  msg.sender, oneStar);
+    totalSupply_ = totalSupply_.add(oneStar);
+    balances[msg.sender] = balances[msg.sender].add(oneStar);
+    emit Transfer(address(0), msg.sender, oneStar);
   }
 
   //  withdraw(): pay a token, receive the most recently deposited star
@@ -202,7 +186,9 @@ contract Pool is MintableToken, BurnableToken
 
     //  we own one less star, so burn one token.
     //
-    burn(oneStar);
+    balances[msg.sender] = balances[msg.sender].sub(oneStar);
+    totalSupply_ = totalSupply_.sub(oneStar);
+    emit Transfer(msg.sender, address(0), oneStar);
 
     //  transfer ownership of the _star to :msg.sender
     //

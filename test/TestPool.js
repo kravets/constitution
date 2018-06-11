@@ -7,7 +7,7 @@ const Pool = artifacts.require('../contracts/Pool.sol');
 const assertRevert = require('./helpers/assertRevert');
 
 contract('Pool', function([owner, user1, user2]) {
-  let ships, polls, constit, pool;
+  let ships, polls, constit, pool, oneStar;
 
   before('setting up for tests', async function() {
     ships = await Ships.new();
@@ -21,6 +21,7 @@ contract('Pool', function([owner, user1, user2]) {
     await constit.configureKeys(0, 10, 11, false, {from:user1});
     await constit.spawn(512, user2, {from:user1});
     pool = await Pool.new(ships.address);
+    oneStar = (await pool.oneStar()).toNumber();
   });
 
   it('deposit star as galaxy owner', async function() {
@@ -34,7 +35,7 @@ contract('Pool', function([owner, user1, user2]) {
     // deposit as galaxy owner.
     await pool.deposit(256, {from:user1});
     assert.isTrue(await ships.isOwner(256, pool.address));
-    assert.equal(await pool.balanceOf(user1), 1000000000000000000);
+    assert.equal((await pool.balanceOf(user1)).toNumber(), oneStar);
     let res = await pool.getAllAssets();
     assert.equal(res.length, 1);
     assert.equal(res[0], 256);
@@ -49,7 +50,7 @@ contract('Pool', function([owner, user1, user2]) {
     // deposit as star owner.
     await pool.deposit(512, {from:user2});
     assert.isTrue(await ships.isOwner(512, pool.address));
-    assert.equal(await pool.balanceOf(user2), 1000000000000000000);
+    assert.equal((await pool.balanceOf(user2)).toNumber(), oneStar);
     let res = await pool.getAllAssets();
     assert.equal(res.length, 2);
     assert.equal(res[0], 256);
