@@ -20,6 +20,7 @@ contract('Pool', function([owner, user1, user2]) {
     await constit.createGalaxy(0, user1);
     await constit.configureKeys(0, 10, 11, false, {from:user1});
     await constit.spawn(512, user2, {from:user1});
+    await constit.transferShip(512, user2, false, {from:user2});
     pool = await Pool.new(ships.address);
     oneStar = (await pool.oneStar()).toNumber();
   });
