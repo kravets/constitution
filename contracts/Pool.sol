@@ -141,9 +141,9 @@ contract Pool is StandardToken
     emit Transfer(address(0), msg.sender, oneStar);
   }
 
-  //  withdraw(): pay a token, receive the most recently deposited star
+  //  withdrawAny(): pay a token, receive the most recently deposited star
   //
-  function withdraw()
+  function withdrawAny()
     public
   {
     withdraw(assets[assets.length-1]);
@@ -192,7 +192,10 @@ contract Pool is StandardToken
 
     //  transfer ownership of the _star to :msg.sender
     //
-    Constitution(ships.owner()).transferShip(_star, msg.sender, true);
+    //    we don't need to reset because we already did so when
+    //    transferring the ship to this contract.
+    //
+    Constitution(ships.owner()).transferShip(_star, msg.sender, false);
   }
 
   //  test if _star is a star, not a galaxy
