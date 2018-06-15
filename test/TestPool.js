@@ -60,7 +60,7 @@ contract('Pool', function([owner, user1, user2]) {
 
   it('withdraw a star', async function() {
     // can't withdraw non-pooled star
-    await assertRevert(pool.withdraw(123, {from:user1}));
+    await assertRevert(pool.withdraw(500, {from:user1}));
     // withdraw a star
     await pool.withdrawAny({from:user1});
     assert.isTrue(await ships.isOwner(512, user1));
