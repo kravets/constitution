@@ -13,19 +13,19 @@ import './Constitution.sol';
 //    additional functions to allow tokens to be obtained.
 //
 //    Using deposit(), an unbooted star can be transferred to this contract.
-//    Upon receiving the star, this contract grants one star token to the
-//    sender. This token can be used like every other ERC20 token.
-//    Using withdraw(), a token can be traded in to receive ownership
+//    Upon receiving the star, this contract grants 2^16 tokens to the
+//    sender. These token can be used like every other ERC20 token.
+//    Using withdraw(), 2^16 tokens can be traded in to receive ownership
 //    of one of the stars deposited into this contract.
 //
 contract Pool is StandardToken
 {
   //  ERC20 token metadata
   //
-  string constant public name = "StarToken";
-  string constant public symbol = "TAR";
+  string constant public name = "Urbit Spark";
+  string constant public symbol = "USP";
   uint256 constant public decimals = 18;
-  uint256 constant public oneStar = 1e18;
+  uint256 constant public oneStar = 65536e18;
 
   //  ships: ships state data store
   //
