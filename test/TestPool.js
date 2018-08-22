@@ -27,6 +27,7 @@ contract('Pool', function([owner, user1, user2]) {
   });
 
   it('deposit star as galaxy owner', async function() {
+    assert.equal(await pool.getAssetCount(), 0);
     // must only accept stars.
     await assertRevert(pool.deposit(0, {from:user1}));
     // must fail if no spawn rights.
@@ -41,6 +42,7 @@ contract('Pool', function([owner, user1, user2]) {
     let res = await pool.getAllAssets();
     assert.equal(res.length, 1);
     assert.equal(res[0], 256);
+    assert.equal(await pool.getAssetCount(), 1);
   });
 
   it('deposit star as star owner', async function() {
@@ -57,6 +59,7 @@ contract('Pool', function([owner, user1, user2]) {
     assert.equal(res.length, 2);
     assert.equal(res[0], 256);
     assert.equal(res[1], 512);
+    assert.equal(await pool.getAssetCount(), 2);
   });
 
   it('withdraw a star', async function() {
@@ -67,6 +70,7 @@ contract('Pool', function([owner, user1, user2]) {
     assert.isTrue(await ships.isOwner(512, user1));
     assert.equal((await pool.balanceOf(user1)), 0);
     let res = await pool.getAllAssets();
+    assert.equal(await pool.getAssetCount(), 1);
     assert.equal(res.length, 1);
     assert.equal(res[0].toNumber(), 256);
     // can't withdraw without balance.

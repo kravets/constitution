@@ -64,6 +64,16 @@ contract Pool is StandardToken
     return assets;
   }
 
+  //  getAssetCount(): returns the number of assets held by this contract
+  //
+  function getAssetCount()
+    view
+    external
+    returns (uint256 count)
+  {
+    return assets.length;
+  }
+
   //  deposit(): add a star _star to the pool, receive a token in return
   //
   //    to be able to deposit, either of the following conditions must be
