@@ -395,21 +395,7 @@ contract Constitution is ConstitutionBase, ERC165Mapping
       }
       else if ( class == Ships.Class.Star )
       {
-        //  in 2018, stars may spawn at most 1024 planets. this limit doubles
-        //  for every subsequent year.
-        //
-        //    Note: 1514764800 corresponds to 2018-01-01
-        //
-        uint256 yearsSince2018 = (_time - 1514764800) / 365 days;
-        if (yearsSince2018 < 6)
-        {
-          limit = uint32( 1024 * (2 ** yearsSince2018) );
-        }
-        else
-        {
-          limit = 65535;
-        }
-        return limit;
+        return 65535;
       }
       else  //  class == Ships.Class.Planet
       {
