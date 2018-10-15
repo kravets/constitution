@@ -825,6 +825,32 @@ contract Constitution is ConstitutionBase, ERC165Mapping
       ships.setDnsDomains(_primary, _secondary, _tertiary);
     }
 
+    //  setTransferProxyFor(): give _transferProxy the right to transfer _ship
+    //
+    //    temporary function for use during launch ceremony
+    //
+    function setTransferProxyFor(uint32 _ship, address _transferProxy)
+      external
+      onlyOwner
+    {
+      //  set transferrer field in Ships contract
+      //
+      ships.setTransferProxy(_ship, _transferProxy);
+      //  emit Approval event
+      //
+      emit Approval(owner, _transferProxy, uint256(_ship));
+    }
+    //  upgradeTo(): instantly upgrade to a new constitution
+    //
+    //    temporary function for use during launch ceremony
+    //
+    function upgradeTo(ConstitutionBase _to)
+      external
+      onlyOwner
+    {
+      upgrade(_to);
+    }
+
   //
   //  Function modifiers for this contract
   //
