@@ -44,7 +44,7 @@ import 'openzeppelin-solidity/contracts/math/SafeMath.sol';
 //    allowing ships to be managed using generic clients that support the
 //    standard. It also implements ERC165 to allow this to be discovered.
 //
-contract Constitution is ConstitutionBase, ERC165Mapping, ERC721Metadata
+contract Constitution is ConstitutionBase, ERC165Mapping
 {
   using SafeMath for uint256;
   using AddressUtils for address;
@@ -97,7 +97,6 @@ contract Constitution is ConstitutionBase, ERC165Mapping, ERC721Metadata
     //  register supported interfaces for ERC165
     //
     supportedInterfaces[0x80ac58cd] = true; // ERC721
-    supportedInterfaces[0x5b5e139f] = true; // ERC721Metadata
     supportedInterfaces[0x7f5828d0] = true; // ERC173 (ownership)
   }
 
@@ -231,48 +230,6 @@ contract Constitution is ConstitutionBase, ERC165Mapping, ERC721Metadata
       returns (bool result)
     {
       return ships.isOperator(_owner, _operator);
-    }
-
-  //
-  //  ERC721Metadata interface
-  //
-
-    function name()
-      public
-      view
-      returns (string)
-    {
-      return "Urbit Ship";
-    }
-
-    function symbol()
-      public
-      view
-      returns (string)
-    {
-      return "URS";
-    }
-
-    //  tokenURI(): produce a URL to a standard JSON file
-    //
-    function tokenURI(uint256 _tokenId)
-      public
-      view
-      validShipId(_tokenId)
-      returns (string _tokenURI)
-    {
-      _tokenURI = "https://eth.urbit.org/erc721/0000000000.json";
-      bytes memory _tokenURIBytes = bytes(_tokenURI);
-      _tokenURIBytes[29] = byte(48+(_tokenId / 1000000000) % 10);
-      _tokenURIBytes[30] = byte(48+(_tokenId / 100000000) % 10);
-      _tokenURIBytes[31] = byte(48+(_tokenId / 10000000) % 10);
-      _tokenURIBytes[32] = byte(48+(_tokenId / 1000000) % 10);
-      _tokenURIBytes[33] = byte(48+(_tokenId / 100000) % 10);
-      _tokenURIBytes[34] = byte(48+(_tokenId / 10000) % 10);
-      _tokenURIBytes[35] = byte(48+(_tokenId / 1000) % 10);
-      _tokenURIBytes[36] = byte(48+(_tokenId / 100) % 10);
-      _tokenURIBytes[37] = byte(48+(_tokenId / 10) % 10);
-      _tokenURIBytes[38] = byte(48+(_tokenId / 1) % 10);
     }
 
   //
